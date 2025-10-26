@@ -4,6 +4,38 @@ AI Agent 학습을 위한 첫 번째 프로젝트입니다.
 
 ## 📋 Changelog
 
+### 2025-10-26 - Function Calling Implementation
+
+#### Code Implementation
+- **Tool 정의 시스템**
+  - `TOOLS` 리스트로 사용 가능한 함수 정의
+  - OpenAI Function Calling 스펙에 맞춘 구조 (`type`, `function`, `parameters`)
+  - `get_weather(city)` 함수 구현
+
+- **함수 실행 시스템**
+  - `FUNCTION_MAP` 딕셔너리로 함수 이름과 실제 함수 매핑
+  - `process_ai_response()` 함수로 AI 응답 처리
+  - Tool call 감지 및 자동 실행
+
+- **메시지 흐름 관리**
+  - AI의 tool_calls를 messages에 추가
+  - 함수 실행 결과를 `role: "tool"` 형태로 저장
+  - 재귀 호출로 AI가 최종 응답 생성
+
+#### 테스트 결과
+- 이름 기억: "My name is Chaehyeon" 저장 및 회상 성공
+- 함수 호출: "What is the weather in Seoul?" → `get_weather("Seoul")` 자동 실행
+- 함수 결과 활용: "15 degrees Celsius" → "현재 서울 온도는 15°C입니다"
+
+#### 학습 내용
+**Function Calling 실행 흐름**:
+1. AI가 tool을 호출하고 싶어함 (`tool_call` 감지)
+2. 어떤 함수와 인자가 필요한지 확인 (`tool_call.function.name`, `tool_call.function.arguments`)
+3. 인자를 문자열 → 딕셔너리로 변환 (`json.loads()`)
+4. 실제 함수 가져와서 실행 (`FUNCTION_MAP.get()` → `function(**arguments)`)
+5. 결과를 AI에게 전달 (`role: "tool"` 메시지 추가)
+6. AI가 함수 결과를 자연어로 변환하여 최종 응답 생성
+
 ### 2025-10-26 - Memory System Implementation
 
 #### Code Implementation
@@ -118,7 +150,8 @@ jupyter notebook main.ipynb
 ```
 
 ## 📝 Notes
-- Function Calling 패턴을 사용하여 AI가 적절한 함수를 선택하도록 학습 중
+- Function Calling 완전 구현: AI가 함수를 선택하고 실행하며 결과를 활용
+- 메모리 시스템: 대화 컨텍스트 유지 및 이전 정보 기억
 - GPT-5-nano 모델 사용 (reasoning tokens 포함)
-- 실제 함수 구현은 아직 없으며, 함수 선택 로직만 테스트 완료
+- 현재 구현된 함수: `get_weather(city)` - 고정값 반환
 
