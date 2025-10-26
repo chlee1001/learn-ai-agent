@@ -4,6 +4,36 @@ AI Agent 학습을 위한 첫 번째 프로젝트입니다.
 
 ## 📋 Changelog
 
+### 2025-10-26 - Memory System Implementation
+
+#### Code Implementation
+- **메모리 시스템 구축**
+  - `messages = []` 리스트로 대화 이력 관리
+  - `call_ai()` 함수로 AI 호출 로직 분리
+  - GPT-5-nano 모델 사용
+
+- **대화 루프 구현**
+  - `while True` 무한 루프로 지속적인 대화 세션
+  - `input()` 함수로 사용자 입력 받기
+  - 종료 조건: "quit" 또는 "q" 입력 시 종료
+
+- **메시지 관리**
+  - 사용자 메시지: `{"role": "user", "content": message}` 형태로 저장
+  - AI 응답: `{"role": "assistant", "content": message}` 형태로 저장
+  - 전체 messages 리스트를 API에 전달하여 컨텍스트 유지
+
+#### 테스트 결과
+- ✅ 이름 기억: "My name is Chaehyeon" → "What is my name?" → "Your name is Chaehyeon"
+- ✅ 출신지 기억: "I'm from Korea"
+- ✅ 복합 질문 처리: 첫 질문과 출신지 기반 추론 성공
+  - 첫 질문: "What is my name?"
+  - 가장 가까운 섬나라: Japan (Korea 기반 추론)
+
+#### 학습 내용
+- AI 프레임워크의 메모리 시스템이 내부적으로 작동하는 원리 이해
+- messages 리스트를 통한 대화 컨텍스트 누적 방식 학습
+- 향후 개선 방향: 대화가 길어질 경우 압축 또는 관리 필요
+
 ### 2025-10-26 - Initial Setup
 
 #### Environment Setup
